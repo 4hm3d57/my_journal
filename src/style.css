@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background-color: grey;
+}
+
+
+.home-navbar, .signup-navbar, .login-navbar, .writing-navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+}
+
+
+.home-logo, .signup-logo, .login-logo, .writin-logo {
+    margin-right: auto;
+    font-size: 30px;
+    padding: 20px;
+}
+
+
+.home-navlinks li, .signup-navlinks li, .login-navlinks li {
+    display: inline-block;
+    padding: 20px;
+    font-size: 20px;
+    margin: 5px;
+}
+
+.signup-container, .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    max-width: 100px;
+    max-height: 100px;
+    padding: 250px;
+    border: px solid black;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.signup-centered-layout, .login-centered-layout {
+    text-align: center;
+    max-width: 400px;
+    padding: 50px;
+    background: grey;
+}

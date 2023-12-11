@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>signup</title>
+</head>
+<body>
+    <section class="signup-navbar">
+        <div class="signup-logo">LOGO</div>
+        <div class="signup-navlinks">
+            <ul>
+                <li><a href="index.html"><u>home</u></a></li>
+                <li><a href="login.html"><u>login</u></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!--center layout for the signup info page-->
+
+    <div class="signup-container">
+        <form class="signup-centered-layout" action="/signup" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <input type="submit" value="signup">
+        </form>
+    </div>
+
+</body>
+</html>
