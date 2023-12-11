@@ -6,14 +6,14 @@
 }
 
 
-.home-navbar, .signup-navbar, .login-navbar, .writing-navbar {
+.home-navbar, .signup-navbar, .login-navbar, .journal-navbar {
     display: flex;
     justify-content: flex-end;
     align-items: baseline;
 }
 
 
-.home-logo, .signup-logo, .login-logo, .writin-logo {
+.home-logo, .signup-logo, .login-logo, .journal-logo {
     margin-right: auto;
     font-size: 30px;
     padding: 20px;
@@ -45,4 +45,17 @@
     max-width: 400px;
     padding: 50px;
     background: grey;
+}
+
+
+.journal-container {
+    display: flex;
+    justify-content: center;
+    padding: 150px;
+}
+
+
+button {
+    float: right;
+    cursor: pointer;
 }

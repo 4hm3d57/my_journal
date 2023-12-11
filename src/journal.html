@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Journal</title>
+</head>
+<body>
+    <section class="journal-navbar">
+        <div class="journal-logo">LOGO</div>
+    </section>
+
+    <section class="journal-container">
+        <div class="content">
+            <form id="journal-entry" action="/journal" method="POST">
+                <textarea class="text-area" rows="25" cols="90" placeholder="write"></textarea>
+            </form>
+            <button id="post-button" onclick="postJournalEntry()">post</button>
+        </div>
+    </section>
+
+</body>
+</html>
