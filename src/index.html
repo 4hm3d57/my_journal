@@ -16,5 +16,20 @@
             </ul>
         </div>
     </section>
+
+    <section class="latest-entries">
+        <h2>Latest Journal Entries</h2>
+        <ul>
+            <% latestEntries.forEach(entry => { %>
+                <li>
+                    <h3><%= entry.title %></h3>
+                    <p><%= entry.content %></p>
+                    <p class="entry-date"><%= new Date(entry.date).toLocaleString() %></p>
+                </li>
+            <% }); %>
+        </ul>
+    </section>
+
+
 </body>
 </html>

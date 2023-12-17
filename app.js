@@ -3,9 +3,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const ejs = require('ejs');
 
 const app = express();
 const PORT = 3000;
+
+
 
 mongoose.connect('mongodb://localhost:27017/web_tests');
 
@@ -14,7 +17,14 @@ const userSchema = new mongoose.Schema({
   password: String 
 })
 
+const userSchema2 = new mongoose.Schema({  
+  content: String
+});
+
 const userModel = mongoose.model("users", userSchema);
+const userModel2 = mongoose.model("journal", userSchema2);
+
+module.exports = userModel2;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
@@ -86,6 +96,37 @@ app.post('/signup', async (req, res) => {
       res.status(500).send('An error occurred during login');
     }
   });
+
+
+app.post('/journal', async(req, res) => {
+  const { content } = req.body;
+
+  const newJournalEntry = new userModel2({
+    content: content
+  });
+
+  try{
+    const savedEntry = await newJournalEntry.save();
+    console.log('Journal entry saved successfully: ', savedEntry);
+    res.json({ message: 'Journal entry saved successfully.'});
+  }catch(error){
+    console.error('Error saving journal entry:', error);
+    res.status(500).json({ error: 'An error occured while saving the journal entry.'});
+  }
+
+});
+
+
+app.get('/', async(req, res) => {
+  try{
+    const latestEntries = await userModel2.find().sort({ date: -1}).limit(5);
+    res.render('home', { latestEntries });
+  }
+  catch(error){
+    console.log('Error fetching latest journal entries: ', error);
+    res.status(500).send('An error occured while fetching latest journals');
+  }
+});
 
 
 

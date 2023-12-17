@@ -10,14 +10,20 @@
 <body>
     <section class="journal-navbar">
         <div class="journal-logo">LOGO</div>
+        <div class="journal-navlinks">
+            <ul>
+                <li><a href="index.html"><u>home</u></a></li>
+                <li><a href="#"><u>logout</u></a></li>
+            </ul>
+        </div>
     </section>
 
     <section class="journal-container">
         <div class="content">
             <form id="journal-entry" action="/journal" method="POST">
-                <textarea class="text-area" rows="25" cols="90" placeholder="write"></textarea>
+                <textarea class="text-area" rows="25" cols="90" placeholder="write"></textarea><br>
+                <input class="post_button" type="submit" value="post">
             </form>
-            <button id="post-button" onclick="postJournalEntry()">post</button>
         </div>
     </section>
 
