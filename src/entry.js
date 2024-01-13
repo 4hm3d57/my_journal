@@ -1,21 +1,34 @@
-// view-entry.js
-document.addEventListener('DOMContentLoaded', () => {
-    const entryId = new URLSearchParams(window.location.search).get('id');
-  
-    if (entryId) {
-      // Fetch and display the full content of the selected entry
-      fetch(`/journal?id=${entryId}`)
-        .then(response => response.json())
-        .then(entry => {
-          const entryTitle = document.getElementById('entry-title');
-          const entryContent = document.getElementById('entry-content');
-          const entryTimestamp = document.getElementById('entry-timestamp');
-  
-          entryTitle.textContent = entry.title;
-          entryContent.textContent = entry.content;
-          entryTimestamp.textContent = new Date(entry.timestamp).toLocaleString();
-        })
-        .catch(error => console.error('Error fetching entry:', error));
-    }
-  });
-  
+// entry.js
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get the entry ID from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const entryId = urlParams.get('id');
+
+  // Fetch and display the journal entry
+  fetchJournalEntry(entryId);
+});
+
+function fetchJournalEntry(entryId) {
+  // Replace 'http://localhost:3000/api/journal/' with your actual API endpoint for getting a single journal entry
+  const endpoint = `http://localhost:3000/journal/${entryId}`;
+
+  fetch(endpoint)
+    .then(response => response.json())
+    .then(data => displayJournalEntry(data))
+    .catch(error => console.error('Error fetching journal entry:', error));
+}
+
+function displayJournalEntry(entry) {
+  // Update the HTML elements with the journal entry details
+  const entryTitleElement = document.getElementById('entry-title');
+  const entryContentElement = document.getElementById('entry-content');
+  const entryTimestampElement = document.getElementById('entry-timestamp');
+
+  entryTitleElement.textContent = entry.title;
+  entryContentElement.textContent = entry.content;
+
+  const formattedDate = new Date(entry.date).toLocaleString();
+  entryTimestampElement.textContent = `Date: ${formattedDate}`;
+}
+
