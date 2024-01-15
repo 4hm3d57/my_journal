@@ -3,8 +3,6 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const ejs = require('ejs');
-const session = require('express-session');
 
 const app = express();
 const PORT = 3000;
@@ -36,14 +34,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 
 app.use(express.static(path.join(__dirname, 'src')));
-app.use(session({
-    secret: 'chicha',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-
-app.set('view engine', 'ejs');
 
 
 app.get('/', (req, res) => {
@@ -80,8 +70,6 @@ app.post('/signup', async (req, res) => {
       const newUser = new userModel({ username, password: hashedPassword });
       await newUser.save();
 
-      req.session.userId = newUser._id;
-      req.session.username = newUser.username;
   
       //res.send('Signup successful! You can now log in.');
       res.redirect('/journal');
@@ -106,8 +94,6 @@ app.post('/signup', async (req, res) => {
       // Use user.password instead of hashedPassword here
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
-        req.session.userId = user._id;
-        req.session.username = user.username;
         res.redirect('/journal');
       } else {
         res.send('Invalid password, please try again');
@@ -118,16 +104,8 @@ app.post('/signup', async (req, res) => {
     }
   });
 
-const isAuthenticated = (req, res, next) => {
-    if(req.session.userId){
-        next();
-    }
-    else{
-        res.redirect('/login');
-    }
-}
 
-app.post('/save-journal', isAuthenticated, async(req, res) => {
+app.post('/save-journal', async(req, res) => {
   const { title, content } = req.body;
 
   const newJournalEntry = new userModel2({
@@ -146,33 +124,6 @@ app.post('/save-journal', isAuthenticated, async(req, res) => {
 
 });
 
-app.get('/view-entry', async (req, res) => {
-  const entryId = req.query.id;
-
-  try {
-    const entry = await userModel2.findById(entryId);
-    res.render('view-entry', { entry });
-  } catch (error) {
-    console.error('Error fetching entry:', error);
-    res.status(500).send('An error occurred while fetching the entry.');
-  }
-});
-
-app.get('/journal', isAuthenticated, async(req, res) => {
-  try{
-    const latestEntries = await userModel2.find().sort({ date: -1}).limit(5);
-    res.render('home', { latestEntries });
-  }
-  catch(error){
-    console.log('Error fetching latest journal entries: ', error);
-    res.status(500).send('An error occured while fetching latest journals');
-  }
-});
-
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/login');
-});
 
 app.listen(PORT, () => {
     console.log(`server is running in http://localhost:${PORT}`);
