@@ -11,13 +11,13 @@ const PORT = 3000;
 
 mongoose.connect('mongodb://localhost:27017/new_journal');
 
-const userSchema = new mongoose.Schema({
+const userSchema_user = new mongoose.Schema({
   username: String,
   password: String 
 })
 
 
-const userSchema2 = new mongoose.Schema({  
+const userSchema_journal = new mongoose.Schema({  
     title: String,
     content: String,
     date: { type: Date, default: Date.now }
@@ -25,10 +25,10 @@ const userSchema2 = new mongoose.Schema({
 
 
 
-const userModel = mongoose.model("users", userSchema);
-const userModel2 = mongoose.model("journal", userSchema2);
+const userModel_user = mongoose.model("users", userSchema_user);
+const userModel_journal = mongoose.model("journal", userSchema_journal);
 
-module.exports = userModel2;
+//module.exports = userModel_journal
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
@@ -58,7 +58,7 @@ app.post('/signup', async (req, res) => {
 
     try {
       // check if the user exists in the database
-      const existingUser = await userModel.findOne({ username });
+      const existingUser = await userModel_user.findOne({ username });
       if (existingUser) {
         return res.send('Username already taken, please try another name.');
       }
@@ -67,7 +67,7 @@ app.post('/signup', async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
   
       // save the user data in the database
-      const newUser = new userModel({ username, password: hashedPassword });
+      const newUser = new userModel_user({ username, password: hashedPassword });
       await newUser.save();
 
   
@@ -85,7 +85,7 @@ app.post('/signup', async (req, res) => {
     
     try {
         // try to find the user in the database
-      const user = await userModel.findOne({ username });
+      const user = await userModel_user.findOne({ username });
       if (!user) {
         return res.send('User was not found, please check your username');
       }
@@ -106,24 +106,25 @@ app.post('/signup', async (req, res) => {
 
 
 app.post('/save-journal', async(req, res) => {
-  const { title, content } = req.body;
+    const { title, content } = req.body;
 
-  const newJournalEntry = new userModel2({
-    title: title,
-    content: content
-  });
+    console.log('Received data: ', { title, content });
+    
+    const newJournalEntry = new userModel_journal({
+        title: title,
+        content: content
+    });
 
-  try{
-    const savedEntry = await newJournalEntry.save();
-    console.log('Journal entry saved successfully: ', savedEntry);
-    res.json({ message: 'Journal entry saved successfully.'});
-  }catch(error){
-    console.error('Error saving journal entry:', error);
-    res.status(500).json({ error: 'An error occured while saving the journal entry.'});
-  }
+    try{
+        const savedEntry = await newJournalEntry.save();
+        console.log('Journal entry saved', savedEntry);
+        res.json({ message: 'Journal entry saved.' });
+
+    }catch(error){
+        res.status(500).send('An error occured: ', error);
+    }
 
 });
-
 
 app.listen(PORT, () => {
     console.log(`server is running in http://localhost:${PORT}`);

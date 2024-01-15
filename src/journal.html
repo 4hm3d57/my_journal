@@ -18,14 +18,13 @@
 
     <h2 class="heading">Journal Entry</h2>  
     <div class="journal-entry">
-        <form class="journal-form" id="journal-form" action="/journal" method="POST">
+        <form class="journal-form" id="journal-form" action="/save-journal" method="POST">
             <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" required><br>
-
-            <textarea class="text-area" id="content" rows="30" cols="100" placeholder="write" required></textarea><br>
-            <button class="save-button" type="button" onclick="saveJournalEntry()">SAVE</button><br
+            <input type="text" name="title"><br>
+            <label for="content">Content:</label><br>
+            <textarea class="text-area" id="content" name="content" rows="30" cols="100" placeholder="write" required></textarea><br>
+            <button class="journal-button" type="submit">Save</button>
         </form>
-        
     </div>
 
     <script src="journal.js"></script>
