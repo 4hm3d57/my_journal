@@ -1,6 +1,13 @@
 # A Using the website
 
-Ensure that you have installed node in your computer
-Run `install.bat` in cmd in windows inside the project to install your dependencies.
-Use `node app.js` to run the application
+## A Node installation
+- Ensure that you have installed node in your computer
+
+## A Dependecy installation
+- Open the command prompt (cmd) in Windows.
+- Navigate to the project directory.
+- Run the following command to install dependencies  `install.bat`
+
+## A Run the application
+- Use the following command to run the application:  `node app.js`
 
