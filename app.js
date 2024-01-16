@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const ejs = require('ejs');
 
 const app = express();
 const PORT = 3000;
@@ -10,6 +11,9 @@ const PORT = 3000;
 
 
 mongoose.connect('mongodb://localhost:27017/new_journal');
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/view') )
 
 const userSchema_user = new mongoose.Schema({
   username: String,
@@ -121,10 +125,23 @@ app.post('/save-journal', async(req, res) => {
         res.json({ message: 'Journal entry saved.' });
 
     }catch(error){
-        res.status(500).send('An error occured: ', error);
+        res.status(500).send('An error occurred: ', error);
     }
 
 });
+
+
+app.get('/save-journal', async (req, res) => {
+    try {
+        const latestEntries = await userModel_journal.find().sort({ _id: -1 });
+        res.render('index', { latestEntries });
+    } catch (error) {
+        console.log('An error occurred: ', error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`server is running in http://localhost:${PORT}`);

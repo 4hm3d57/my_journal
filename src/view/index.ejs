@@ -1,3 +1,4 @@
+<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +20,17 @@
     </div>
 
     <div class="journal-list">
-        <h1>Latest journal entries</h1>
-        <form action="/save-journal" method="GET">
-            <button type="submit">View More Journals</button>
-        </form>
+    <h1 style="text-align: center;">Latest Journal Entries</h1>
+        <ul style="list-style: none; padding: 0; text-align: center;">
+            <% latestEntries.forEach(entry => { %>
+                <li style="margin-bottom: 20px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); padding: 15px; border-radius: 5px;">
+                    <h2 onclick="viewJournalEntry('<%= entry._id %>')"><%= entry.title %></h2>
+                    <p><%= entry.content %></p>
+                </li>
+            <% }); %>
+        </ul>
     </div>
 
-    
 
 </body>
 </html>
