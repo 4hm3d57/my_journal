@@ -1,7 +1,7 @@
 # A Using the website
 
 ## A Node installation
-- Ensure that you have installed node in your computer
+- Ensure that you have node installed in your computer
 
 ## A Dependecy installation
 - Open the command prompt (cmd) in Windows.
