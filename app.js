@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const ejs = require('ejs');
+const session = require('express-session');
 
 const app = express();
 const PORT = 3000;
@@ -24,6 +25,7 @@ const userSchema_user = new mongoose.Schema({
 const userSchema_journal = new mongoose.Schema({  
     title: String,
     content: String,
+    user: String,
     date: { type: Date, default: Date.now }
 });
 
@@ -36,6 +38,19 @@ const userModel_journal = mongoose.model("journal", userSchema_journal);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
+
+app.use(session({
+    secret: '12345',
+    resave: false,
+    saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+    if(req.session && req.session.user){
+        req.user = req.session.user;
+    }
+    next();
+});
 
 app.use(express.static(path.join(__dirname, 'src')));
 
@@ -74,6 +89,8 @@ app.post('/signup', async (req, res) => {
       const newUser = new userModel_user({ username, password: hashedPassword });
       await newUser.save();
 
+      req.session.user = { username };
+
   
       //res.send('Signup successful! You can now log in.');
       res.redirect('/journal');
@@ -98,6 +115,7 @@ app.post('/signup', async (req, res) => {
       // Use user.password instead of hashedPassword here
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
+        req.session.user = { username };
         res.redirect('/journal');
       } else {
         res.send('Invalid password, please try again');
@@ -112,11 +130,14 @@ app.post('/signup', async (req, res) => {
 app.post('/save-journal', async(req, res) => {
     const { title, content } = req.body;
 
-    console.log('Received data: ', { title, content });
+    const currentUser = req.user;
+
+    console.log('Received data: ', { title, content, currentUser });
     
     const newJournalEntry = new userModel_journal({
         title: title,
-        content: content
+        content: content,
+        user: currentUser.username
     });
 
     try{
