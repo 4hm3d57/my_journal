@@ -71,6 +71,7 @@ app.get('/journal', (req, res) => {
   res.sendFile(path.join(__dirname, 'src', 'journal.html'));
 })
 
+
 // handle signup post request
 app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
@@ -143,7 +144,8 @@ app.post('/save-journal', async(req, res) => {
     try{
         const savedEntry = await newJournalEntry.save();
         console.log('Journal entry saved', savedEntry);
-        res.json({ message: 'Journal entry saved.' });
+        //res.json({ message: 'Journal entry saved.' });
+        res.redirect('after_journal.html')
 
     }catch(error){
         res.status(500).send('An error occurred: ', error);
@@ -159,6 +161,22 @@ app.get('/save-journal', async (req, res) => {
     } catch (error) {
         console.log('An error occurred: ', error);
         res.status(500).send('An error occurred');
+    }
+});
+
+app.post('/delete-journal', async(req, res) => {
+    const journalId = req.body.journalId;
+
+    try{
+        //find the journal entry by ID and delete it
+        const deleteEntry = await userModel_journal.findByIdAndDelete(journalId);
+
+        //res.status(200).json({ message: 'Journal entry delete successfully.' });
+        res.redirect('/save-journal')
+
+    }catch(error){
+        console.error('Error deleting journal entry:', error);
+        res.status(500).json({ message: 'An error occured while deleting the journal.' });
     }
 });
 

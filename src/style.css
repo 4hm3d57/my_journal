@@ -2,19 +2,19 @@
     background-color: grey;
 }
 
-.home-logo, .login-logo, .signup-logo, .journal-logo {
+.home-logo, .login-logo, .signup-logo, .journal-logo, .after-journal-logo {
     padding: 20px;
     margin-right: auto;
     font-size: 30px;
 }
 
-.home-navbar, .login-navbar, .signup-navbar, .journal-navbar {
+.home-navbar, .login-navbar, .signup-navbar, .journal-navbar, .after-journal-navbar {
     display: flex;
     justify-content: flex-end;
     align-items: baseline;
 }
 
-.home-navlinks li, .login-navlinks li, .signup-navlinks li, .journal-navlinks li {
+.home-navlinks li, .login-navlinks li, .signup-navlinks li, .journal-navlinks li, .after-journal-navlinks li {
     display: inline-block;
     padding: 20px;
     font-size: 20px;
@@ -46,4 +46,38 @@
     float: right;
 }
 
+.message {
+    margin-left: 30px;
+}
+
+.h1 {
+    font-size: 40px;
+    color: black;
+}
+
+.m1 {
+    font-size: 25px;
+    color: black;
+}
+
+.p1 {
+    font-size: 20px;
+    color: black;
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px; /* Adjust the font size as needed */
+    color: #999; /* Color of the icon */
+    padding: 5px; /* Adjust padding as needed */
+    position: absolute;
+    top: 5px; /* Adjust top position as needed */
+    right: 5px; /* Adjust right position as needed */
+}
+
+.delete-button:hover {
+    color: #f00; /* Change color on hover */
+}
 
